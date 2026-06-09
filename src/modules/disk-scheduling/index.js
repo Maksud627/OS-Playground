@@ -7,7 +7,6 @@ const KEY = 'disk';
 export function renderDisk(container) {
   const saved = loadState(KEY);
   if (saved) {
-    document.getElementById = () => {}; // placeholder - restore after render
     setTimeout(() => {
       if (saved.queue) document.getElementById('disk-queue').value = saved.queue;
       if (saved.head !== undefined) document.getElementById('disk-head').value = saved.head;
