@@ -67,8 +67,19 @@ const NAV_GROUPS = [
   },
 ];
 
+let sbScrollTop = 0;
+let collapsedGroups = new Set();
+
 export function initNavbar(activeHash) {
   const nav = document.getElementById('navbar');
+  const groupsEl = nav.querySelector('.sb-groups');
+  if (groupsEl) {
+    sbScrollTop = groupsEl.scrollTop;
+    collapsedGroups = new Set();
+    groupsEl.querySelectorAll('.sb-group.collapsed').forEach((g) => {
+      collapsedGroups.add(g.dataset.group);
+    });
+  }
   nav.innerHTML = `
     <div class="sb-logo" onclick="window.navigate('')">
       <div class="sb-logo-icon">⚙</div>
@@ -77,7 +88,7 @@ export function initNavbar(activeHash) {
 
     <div class="sb-groups">
       ${NAV_GROUPS.map(group => `
-        <div class="sb-group">
+        <div class="sb-group" data-group="${group.label}">
           <div class="sb-group-hd" onclick="this.parentElement.classList.toggle('collapsed')">
             <span class="sb-group-label">${group.label}</span>
             <span class="sb-group-arrow">▾</span>
@@ -99,4 +110,11 @@ export function initNavbar(activeHash) {
 
     <button class="sb-toggle" onclick="document.body.classList.toggle('sidebar-collapsed')" title="Toggle sidebar">◀</button>
   `;
+  const newGroupsEl = nav.querySelector('.sb-groups');
+  if (newGroupsEl) {
+    newGroupsEl.scrollTop = sbScrollTop;
+    newGroupsEl.querySelectorAll('.sb-group').forEach((g) => {
+      if (collapsedGroups.has(g.dataset.group)) g.classList.add('collapsed');
+    });
+  }
 }

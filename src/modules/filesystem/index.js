@@ -5,8 +5,6 @@ import { saveState, loadState } from '../../utils/storage.js';
 const KEY = 'filesystem';
 
 export function renderFilesystem(container) {
-  const saved = loadState(KEY);
-  if (saved && saved.files) { files = saved.files; inoCounter = saved.inoCounter; usedBlocks = new Set(saved.usedBlocks); } else initFS();
   container.innerHTML = `
   <div class="module-page">
     <div class="module-header">
@@ -81,7 +79,16 @@ export function renderFilesystem(container) {
     </div>
   </div>`;
 
-  initFS();
+  const saved = loadState(KEY);
+  if (saved && saved.files) {
+    files = saved.files;
+    inoCounter = saved.inoCounter;
+    usedBlocks = new Set(saved.usedBlocks);
+    bindFS();
+    redrawFS();
+  } else {
+    initFS();
+  }
 }
 
 let files = [];

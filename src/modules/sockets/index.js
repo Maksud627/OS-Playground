@@ -117,7 +117,7 @@ export function renderSockets(container) {
     </div>
   </div>`;
 
-  state = 'CLOSED'; handshakeStep = 0; segments = [];
+  state = 'CLOSED'; segments = [];
   bindSockets();
 }
 
